@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Languages } from "lucide-react";
 
 export default function TranslationInput() {
   const [text, setText] = useState("");
@@ -28,24 +28,29 @@ export default function TranslationInput() {
         <Button
           variant="ghost"
           onClick={() => navigate("/")}
-          className="mb-6 text-neutral-600 hover:text-neutral-800"
+          className="mb-6 text-neutral-600 hover:text-neutral-800 gap-2"
         >
-          <ArrowLeft className="mr-2 h-4 w-4" />
+          <ArrowLeft className="h-4 w-4" />
           Back to Dashboard
         </Button>
 
         <div className="bg-white rounded-lg shadow-lg border border-neutral-200">
-          <div className="border-b border-neutral-200 bg-neutral-50 p-6 rounded-t-lg">
-            <h1 className="text-2xl font-bold text-neutral-800">Enter Translation Details</h1>
-            <p className="text-neutral-600 mt-1">Please provide the text and language preferences</p>
+          <div className="border-b border-neutral-200 bg-gradient-to-r from-brand-primary/5 to-brand-secondary/5 p-6 rounded-t-lg flex items-center gap-3">
+            <Languages className="h-6 w-6 text-brand-primary" />
+            <div>
+              <h1 className="text-2xl font-bold text-neutral-800">New Translation</h1>
+              <p className="text-neutral-600 mt-1">Enter your text and select languages</p>
+            </div>
           </div>
           
-          <div className="p-6 space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="p-6 space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-neutral-700">Source Language</label>
+                <label className="text-sm font-medium text-neutral-700 flex items-center gap-2">
+                  Source Language
+                </label>
                 <Select onValueChange={setSourceLanguage} value={sourceLanguage}>
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full bg-white">
                     <SelectValue placeholder="Select source language" />
                   </SelectTrigger>
                   <SelectContent>
@@ -54,14 +59,17 @@ export default function TranslationInput() {
                     <SelectItem value="fr">French</SelectItem>
                     <SelectItem value="de">German</SelectItem>
                     <SelectItem value="it">Italian</SelectItem>
+                    <SelectItem value="lv">Latvian</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               
               <div className="space-y-2">
-                <label className="text-sm font-medium text-neutral-700">Target Language</label>
+                <label className="text-sm font-medium text-neutral-700 flex items-center gap-2">
+                  Target Language
+                </label>
                 <Select onValueChange={setTargetLanguage} value={targetLanguage}>
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full bg-white">
                     <SelectValue placeholder="Select target language" />
                   </SelectTrigger>
                   <SelectContent>
@@ -70,6 +78,7 @@ export default function TranslationInput() {
                     <SelectItem value="fr">French</SelectItem>
                     <SelectItem value="de">German</SelectItem>
                     <SelectItem value="it">Italian</SelectItem>
+                    <SelectItem value="lv">Latvian</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -81,23 +90,23 @@ export default function TranslationInput() {
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 placeholder="Enter your text here..."
-                className="min-h-[200px] resize-none"
+                className="min-h-[200px] resize-none bg-white"
               />
             </div>
           </div>
           
-          <div className="border-t border-neutral-200 bg-neutral-50 p-6 rounded-b-lg">
+          <div className="border-t border-neutral-200 bg-gradient-to-r from-brand-primary/5 to-brand-secondary/5 p-6 rounded-b-lg">
             <div className="flex justify-end space-x-4">
               <Button
                 variant="outline"
                 onClick={() => navigate("/")}
-                className="border-neutral-300 text-neutral-700"
+                className="border-neutral-300 text-neutral-700 hover:bg-neutral-100"
               >
                 Cancel
               </Button>
               <Button
                 onClick={handleNext}
-                className="bg-brand-primary hover:bg-brand-secondary text-white px-8"
+                className="bg-brand-primary hover:bg-brand-secondary text-white px-8 transition-colors duration-200"
                 disabled={!text || !sourceLanguage || !targetLanguage}
               >
                 Next Step
