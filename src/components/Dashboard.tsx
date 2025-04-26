@@ -1,11 +1,31 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { NewTranslationModal } from "./NewTranslationModal";
+import { TranslationHistory } from "./TranslationHistory";
 import { PlusIcon } from "lucide-react";
 
 export function Dashboard() {
   const [showModal, setShowModal] = useState(false);
+  const [totalTranslations, setTotalTranslations] = useState(0);
+  const [uniqueLanguages, setUniqueLanguages] = useState(0);
+
+  useEffect(() => {
+    // Get statistics from translation history
+    const history = JSON.parse(localStorage.getItem("translationHistory") || "[]");
+    
+    setTotalTranslations(history.length);
+    
+    // Count unique languages
+    if (history.length > 0) {
+      const languages = new Set<string>();
+      history.forEach((item: any) => {
+        if (item.sourceLanguage) languages.add(item.sourceLanguage);
+        if (item.targetLanguage) languages.add(item.targetLanguage);
+      });
+      setUniqueLanguages(languages.size);
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100">
@@ -27,37 +47,33 @@ export function Dashboard() {
           
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {/* Recent Translations Card */}
-            <div className="bg-white rounded-lg shadow-md p-6 border border-neutral-200">
+            <div className="bg-white rounded-lg shadow-md p-6 border border-neutral-200 md:col-span-2">
               <h2 className="text-xl font-semibold text-neutral-700 mb-4">Recent Translations</h2>
-              <div className="p-4 text-center text-neutral-500 bg-neutral-50 rounded-md">
-                No translations yet
-              </div>
+              <TranslationHistory />
             </div>
             
-            {/* Quick Stats Card */}
+            {/* Stats Card */}
             <div className="bg-white rounded-lg shadow-md p-6 border border-neutral-200">
               <h2 className="text-xl font-semibold text-neutral-700 mb-4">Statistics</h2>
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-neutral-50 rounded-md text-center">
-                  <p className="text-2xl font-bold text-brand-primary">0</p>
+                  <p className="text-2xl font-bold text-brand-primary">{totalTranslations}</p>
                   <p className="text-sm text-neutral-600">Total Translations</p>
                 </div>
                 <div className="p-4 bg-neutral-50 rounded-md text-center">
-                  <p className="text-2xl font-bold text-brand-primary">0</p>
+                  <p className="text-2xl font-bold text-brand-primary">{uniqueLanguages}</p>
                   <p className="text-sm text-neutral-600">Languages</p>
                 </div>
               </div>
-            </div>
-            
-            {/* Quick Actions Card */}
-            <div className="bg-white rounded-lg shadow-md p-6 border border-neutral-200">
-              <h2 className="text-xl font-semibold text-neutral-700 mb-4">Quick Actions</h2>
-              <Button 
-                onClick={() => setShowModal(true)}
-                className="w-full bg-brand-light hover:bg-brand-primary text-brand-dark hover:text-white transition-colors"
-              >
-                Start New Translation
-              </Button>
+              
+              <div className="mt-4">
+                <Button 
+                  onClick={() => setShowModal(true)}
+                  className="w-full bg-brand-light hover:bg-brand-primary text-brand-dark hover:text-white transition-colors"
+                >
+                  Start New Translation
+                </Button>
+              </div>
             </div>
           </div>
         </div>

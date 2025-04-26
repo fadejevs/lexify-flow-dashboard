@@ -11,6 +11,7 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { toast } from "sonner";
 
 export default function TranslationInput() {
   const [text, setText] = useState("");
@@ -19,6 +20,25 @@ export default function TranslationInput() {
   const navigate = useNavigate();
 
   const handleNext = () => {
+    // Save the translation data to localStorage for persistence
+    const translationData = {
+      id: Date.now().toString(),
+      text,
+      sourceLanguage,
+      targetLanguage,
+      timestamp: new Date().toISOString(),
+      status: "processing",
+    };
+    
+    // Add to history
+    const history = JSON.parse(localStorage.getItem("translationHistory") || "[]");
+    history.push(translationData);
+    localStorage.setItem("translationHistory", JSON.stringify(history));
+    
+    // Also set current translation for the next step
+    localStorage.setItem("currentTranslation", JSON.stringify(translationData));
+    
+    toast.success("Translation started");
     navigate("/translation/processing");
   };
 
@@ -54,6 +74,11 @@ export default function TranslationInput() {
                     <SelectItem value="fr">French</SelectItem>
                     <SelectItem value="de">German</SelectItem>
                     <SelectItem value="it">Italian</SelectItem>
+                    <SelectItem value="lv">Latvian</SelectItem>
+                    <SelectItem value="ru">Russian</SelectItem>
+                    <SelectItem value="zh">Chinese</SelectItem>
+                    <SelectItem value="ja">Japanese</SelectItem>
+                    <SelectItem value="ar">Arabic</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -70,6 +95,11 @@ export default function TranslationInput() {
                     <SelectItem value="fr">French</SelectItem>
                     <SelectItem value="de">German</SelectItem>
                     <SelectItem value="it">Italian</SelectItem>
+                    <SelectItem value="lv">Latvian</SelectItem>
+                    <SelectItem value="ru">Russian</SelectItem>
+                    <SelectItem value="zh">Chinese</SelectItem>
+                    <SelectItem value="ja">Japanese</SelectItem>
+                    <SelectItem value="ar">Arabic</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
