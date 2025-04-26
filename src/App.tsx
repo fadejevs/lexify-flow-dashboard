@@ -7,7 +7,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Dashboard } from "./components/Dashboard";
 import TranslationInput from "./pages/TranslationInput";
 import TranslationProcessing from "./pages/TranslationProcessing";
-import TranslationResult from "./pages/TranslationResult";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,7 +21,6 @@ const App = () => (
           <Route path="/" element={<Dashboard />} />
           <Route path="/translation/input" element={<TranslationInput />} />
           <Route path="/translation/processing" element={<TranslationProcessing />} />
-          <Route path="/translation/result" element={<TranslationResult />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
